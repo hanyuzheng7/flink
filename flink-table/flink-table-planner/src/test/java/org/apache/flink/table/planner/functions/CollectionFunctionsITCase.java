@@ -504,7 +504,7 @@ class CollectionFunctionsITCase extends BuiltInFunctionTestBase {
                         .testResult(
                                 $("f0").arrayExcept(new Integer[] {1, null, 4}),
                                 "ARRAY_EXCEPT(f0, ARRAY[1, NULL, 4])",
-                                new Integer[] {1},
+                                new Integer[] {2},
                                 DataTypes.ARRAY(DataTypes.INT()).nullable())
                         .testResult(
                                 $("f0").arrayExcept(new Integer[] {1}),

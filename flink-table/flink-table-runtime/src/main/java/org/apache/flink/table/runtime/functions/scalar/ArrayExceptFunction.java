@@ -57,7 +57,7 @@ public class ArrayExceptFunction extends BuiltInScalarFunction {
                 context.createEvaluator(
                         Expressions.call("HASHCODE", $("element1")),
                         DataTypes.INT(),
-                        DataTypes.FIELD("element1", dataType.notNull()));
+                        DataTypes.FIELD("element1", dataType.notNull().toInternal()));
     }
 
     @Override
