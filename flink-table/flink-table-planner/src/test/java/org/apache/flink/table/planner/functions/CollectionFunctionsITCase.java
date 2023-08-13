@@ -631,15 +631,14 @@ class CollectionFunctionsITCase extends BuiltInFunctionTestBase {
                                 DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.INT())))
                         // ARRAY<INT>
                         .testResult(
-                                $("f4").arrayIntersect(
-                                                new Integer[][] {new Integer[] {1, null, 4}}),
-                                "ARRAY_INTERSECT(f4, ARRAY[ARRAY[1, NULL, 4]])",
-                                new Integer[] {1},
-                                DataTypes.ARRAY(DataTypes.INT()))
+                                $("f4").arrayIntersect(new Integer[][] {new Integer[] {1, 2, 3}}),
+                                "ARRAY_INTERSECT(f4, ARRAY[ARRAY[1, 2, 3]])",
+                                new Integer[][] {{1, 2, 3}},
+                                DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.INT())))
                         .testResult(
                                 $("f0").arrayIntersect(new Integer[] {1, null, 4}),
                                 "ARRAY_INTERSECT(f0, ARRAY[1, NULL, 4])",
-                                new Integer[] {1},
+                                new Integer[] {1, null},
                                 DataTypes.ARRAY(DataTypes.INT()))
                         .testResult(
                                 $("f1").arrayIntersect(new Integer[] {1, null, 4}),
