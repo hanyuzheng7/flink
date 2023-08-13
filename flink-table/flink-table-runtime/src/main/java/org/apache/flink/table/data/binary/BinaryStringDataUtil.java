@@ -188,6 +188,7 @@ public class BinaryStringDataUtil {
      */
     public static DecimalData toDecimal(BinaryStringData str, int precision, int scale)
             throws NumberFormatException {
+        str = transformer(str);
         str.ensureMaterialized();
 
         DecimalData data;

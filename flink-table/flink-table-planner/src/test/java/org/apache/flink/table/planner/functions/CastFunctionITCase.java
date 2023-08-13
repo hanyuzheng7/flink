@@ -202,7 +202,7 @@ public class CastFunctionITCase extends BuiltInFunctionTestBase {
                         .fromCase(VARBINARY(1), new byte[] {111}, new byte[] {111, 0})
                         .fromCase(BYTES(), new byte[] {11}, new byte[] {11, 0})
                         // Not supported - no fix
-                        .failValidation(DECIMAL(5, 3), 12.345)
+                        .fromCase(DECIMAL(5, 3), 12.000, new byte[] {49, 50})
                         //
                         .fromCase(TINYINT(), DEFAULT_NEGATIVE_TINY_INT, new byte[] {45, 53})
                         .fromCase(SMALLINT(), DEFAULT_POSITIVE_SMALL_INT, new byte[] {49, 50})
@@ -211,7 +211,7 @@ public class CastFunctionITCase extends BuiltInFunctionTestBase {
                         .fromCase(FLOAT(), DEFAULT_POSITIVE_FLOAT, new byte[] {49, 50})
                         .fromCase(DOUBLE(), DEFAULT_POSITIVE_DOUBLE, new byte[] {49, 50})
                         // Not supported - no fix
-                        .failValidation(DECIMAL(5, 3), 12.345)
+                        .fromCase(DECIMAL(5, 3), 12.000, new byte[] {49, 50})
                         .failValidation(DATE(), DEFAULT_DATE)
                         .failValidation(TIME(), DEFAULT_TIME)
                         .failValidation(TIMESTAMP(), DEFAULT_TIMESTAMP)
@@ -239,7 +239,7 @@ public class CastFunctionITCase extends BuiltInFunctionTestBase {
                         .fromCase(VARBINARY(10), DEFAULT_VARBINARY, DEFAULT_VARBINARY)
                         .fromCase(BYTES(), DEFAULT_BYTES, new byte[] {0, 1, 2, 3})
                         // Not supported - no fix
-                        .failValidation(DECIMAL(5, 3), 12.345)
+                        .fromCase(DECIMAL(5, 3), 12.345, new byte[] {49, 50, 46, 51})
                         .failValidation(DATE(), DEFAULT_DATE)
                         .failValidation(TIME(), DEFAULT_TIME)
                         .failValidation(TIMESTAMP(), DEFAULT_TIMESTAMP)
@@ -290,7 +290,7 @@ public class CastFunctionITCase extends BuiltInFunctionTestBase {
                                 new byte[] {65, 112, 97, 99, 104, 101, 32, 70, 108, 105, 110, 107})
                         // Not supported - no fix
                         .failValidation(BOOLEAN(), true)
-                        .failValidation(DECIMAL(5, 3), 12.345)
+                        .fromCase(DECIMAL(5, 3), 12.345, new byte[] {49, 50, 46, 51, 52, 53})
                         .failValidation(DATE(), DEFAULT_DATE)
                         .failValidation(TIME(), DEFAULT_TIME)
                         .failValidation(TIMESTAMP(), DEFAULT_TIMESTAMP)
@@ -339,11 +339,7 @@ public class CastFunctionITCase extends BuiltInFunctionTestBase {
                         .fromCase(STRING(), "1.2", new BigDecimal("1.200"))
                         .fromCase(BOOLEAN(), true, new BigDecimal("1.000"))
                         .fromCase(BOOLEAN(), false, new BigDecimal("0.000"))
-                        // Not supported - no fix
-                        .failValidation(BINARY(2), DEFAULT_BINARY)
-                        .failValidation(VARBINARY(5), DEFAULT_VARBINARY)
-                        .failValidation(BYTES(), DEFAULT_BYTES)
-                        //
+                        .fromCase(BINARY(2), DEFAULT_BINARY, new BigDecimal("1.000"))
                         .fromCase(DECIMAL(4, 3), 9.87, new BigDecimal("9.870"))
                         .fromCase(TINYINT(), -1, new BigDecimal("-1.000"))
                         .fromCase(SMALLINT(), 3, new BigDecimal("3.000"))
@@ -364,6 +360,11 @@ public class CastFunctionITCase extends BuiltInFunctionTestBase {
                         // MAP
                         // ROW
                         // RAW
+                        .build(),
+                CastTestSpecBuilder.testCastTo(DECIMAL(8, 3))
+                        .fromCase(BINARY(2), DEFAULT_BINARY, new BigDecimal("1.000"))
+                        .fromCase(VARBINARY(10), DEFAULT_VARBINARY, new BigDecimal("12.000"))
+                        .fromCase(BYTES(), DEFAULT_BYTES, new BigDecimal("1234.000"))
                         .build(),
                 CastTestSpecBuilder.testCastTo(TINYINT())
                         .fromCase(VARBINARY(1), new byte[] {5}, (byte) 5)

@@ -22,6 +22,7 @@ import org.apache.flink.table.data.binary.BinaryStringData;
 import org.apache.flink.table.planner.codegen.CodeGenUtils;
 import org.apache.flink.table.types.logical.LogicalType;
 import org.apache.flink.table.types.logical.LogicalTypeFamily;
+import org.apache.flink.table.types.logical.LogicalTypeRoot;
 import org.apache.flink.table.types.logical.utils.LogicalTypeChecks;
 
 import static org.apache.flink.table.planner.codegen.CodeGenUtils.newName;
@@ -43,6 +44,7 @@ class NumericToBinaryCastRule extends AbstractNullAwareCodeGeneratorCastRule<Num
                 CastRulePredicate.builder()
                         .input(LogicalTypeFamily.INTEGER_NUMERIC)
                         .input(LogicalTypeFamily.APPROXIMATE_NUMERIC)
+                        .input(LogicalTypeRoot.DECIMAL)
                         .target(LogicalTypeFamily.BINARY_STRING)
                         .build());
     }

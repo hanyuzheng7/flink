@@ -19,10 +19,13 @@
 package org.apache.flink.table.planner.functions.casting;
 
 import org.apache.flink.table.data.binary.BinaryStringData;
+import org.apache.flink.table.types.logical.DecimalType;
 import org.apache.flink.table.types.logical.LogicalType;
 import org.apache.flink.table.types.logical.LogicalTypeFamily;
+import org.apache.flink.table.types.logical.LogicalTypeRoot;
 
 import static org.apache.flink.table.planner.codegen.calls.BuiltInMethods.STRING_DATA_TO_BYTE;
+import static org.apache.flink.table.planner.codegen.calls.BuiltInMethods.STRING_DATA_TO_DECIMAL;
 import static org.apache.flink.table.planner.codegen.calls.BuiltInMethods.STRING_DATA_TO_DOUBLE;
 import static org.apache.flink.table.planner.codegen.calls.BuiltInMethods.STRING_DATA_TO_FLOAT;
 import static org.apache.flink.table.planner.codegen.calls.BuiltInMethods.STRING_DATA_TO_INT;
@@ -41,6 +44,7 @@ class BinaryToNumericCastRule extends AbstractExpressionCodeGeneratorCastRule<by
                         .input(LogicalTypeFamily.BINARY_STRING)
                         .target(LogicalTypeFamily.INTEGER_NUMERIC)
                         .target(LogicalTypeFamily.APPROXIMATE_NUMERIC)
+                        .target(LogicalTypeRoot.DECIMAL)
                         .build());
     }
 
@@ -52,6 +56,13 @@ class BinaryToNumericCastRule extends AbstractExpressionCodeGeneratorCastRule<by
             LogicalType targetLogicalType) {
         final String inputstr = staticCall(BinaryStringData.class, "fromBytes", inputTerm);
         switch (targetLogicalType.getTypeRoot()) {
+            case DECIMAL:
+                DecimalType decimalType = (DecimalType) targetLogicalType;
+                return staticCall(
+                        STRING_DATA_TO_DECIMAL(),
+                        inputstr,
+                        decimalType.getPrecision(),
+                        decimalType.getScale());
             case TINYINT:
                 return staticCall(STRING_DATA_TO_BYTE(), inputstr);
             case SMALLINT:

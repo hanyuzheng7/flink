@@ -172,6 +172,7 @@ public class SqlCastFunction extends SqlFunction {
             case SMALLINT:
             case INTEGER:
             case BIGINT:
+            case DECIMAL:
             case VARBINARY:
             case FLOAT:
             case DOUBLE:

@@ -138,21 +138,25 @@ public final class LogicalTypeCasts {
         castTo(BINARY)
                 .implicitFrom(BINARY)
                 .explicitFromFamily(CHARACTER_STRING, INTEGER_NUMERIC, APPROXIMATE_NUMERIC)
-                .explicitFrom(VARBINARY)
+                .explicitFrom(VARBINARY, DECIMAL)
                 .explicitFrom(RAW)
                 .build();
 
         castTo(VARBINARY)
                 .implicitFromFamily(BINARY_STRING)
                 .explicitFromFamily(CHARACTER_STRING, INTEGER_NUMERIC, APPROXIMATE_NUMERIC)
-                .explicitFrom(BINARY)
+                .explicitFrom(BINARY, DECIMAL)
                 .explicitFrom(RAW)
                 .build();
 
         castTo(DECIMAL)
                 .implicitFromFamily(NUMERIC)
-                .explicitFromFamily(CHARACTER_STRING, INTERVAL)
-                .explicitFrom(BOOLEAN, TIMESTAMP_WITHOUT_TIME_ZONE, TIMESTAMP_WITH_LOCAL_TIME_ZONE)
+                .explicitFromFamily(CHARACTER_STRING, INTERVAL, BINARY_STRING)
+                .explicitFrom(
+                        BOOLEAN,
+                        TIMESTAMP_WITHOUT_TIME_ZONE,
+                        TIMESTAMP_WITH_LOCAL_TIME_ZONE,
+                        VARBINARY)
                 .build();
 
         castTo(TINYINT)
